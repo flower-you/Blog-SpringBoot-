@@ -1,0 +1,83 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE>
+<html>
+<head>
+	<title>创建博客</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="kindeditor/themes/default/default.css" />
+	<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+	<script charset="utf-8" src="kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="kindeditor/lang/zh_CN.js"></script>
+	<script>
+		var editor;
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="c1"]', {
+				allowFileManager : true
+			});
+		});
+		function check() {
+			var title = $("#title").val();
+			var schema = $("#schema").val();
+			var content = editor.html();
+			if (title.trim() == "") {
+				alert("title must be not null");
+				return;
+			}
+			if (schema.trim() == "") {
+				alert("schema must be not null");
+				return;
+			}
+			if (content.trim() == "") {
+				alert("content must be not null");
+				return;
+			}
+			$("#c2").val(content);
+			if (confirm("save this blog, are you sure?")) {
+				$("#form1").submit();
+			}
+		}
+	</script>
+</head>
+
+<body class="templatemo-bg-gray">
+	<div align="center">
+		<c:import url="${pageContext.request.contextPath}/header.jsp"></c:import>
+		<h2>Blog Form</h2>
+		<form id="form1" action="createblog.action" method="post">
+			<input type="hidden" name="type" value="2" />
+			<table class="templatemo-container" style="width: 1024px;">
+				<tr>
+					<td>title:<input id="title" type="text" class="form-control"
+						name="title" />
+					</td>
+				</tr>
+				<tr>
+					<td>kind:<br /> <select id="kind" name="kind">
+							<c:forEach items="${blogKinds }" var="kind">
+								<option value="${kind.id }">${kind.name }</option>
+							</c:forEach>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>schema:<br /> <textarea id="schema" name="schema"
+							style="width: 1024px; resize: none;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>content:<br /> <textarea id="c1" name="c1"
+							style="width: 1024px; resize: none;" rows="30"></textarea><br />
+						<input name="content" id="c2" type="hidden" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center"><input type="button" onclick="check()"
+						value="submit" class="btn" /></td>
+				</tr>
+			</table>
+		</form>
+		<h2 onclick="javascript:history.go(-1);">The history back</h2>
+	</div>
+</body>
+</html>

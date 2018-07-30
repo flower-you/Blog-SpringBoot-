@@ -1,0 +1,8 @@
+SpringBoot默认使用的连接池是HikariCP，也可以使用其他连接池
+通用mapper需要添加依赖
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		
